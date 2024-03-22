@@ -3,12 +3,26 @@ import { useDispatch, useSelector } from "react-redux";
 import { setNumReturns } from "../redux/Slice";
 import { motion } from "framer-motion";
 import money from "../assets/money.jpg";
-
+import { TfiMoney } from "react-icons/tfi";
 const TaxForm = () => {
   const numReturns = useSelector((state) => state.returns.numReturns);
   const dispatch = useDispatch();
   const [currentForm, setCurrentForm] = useState(0);
   const [formData, setFormData] = useState([]);
+  const valueMap = {
+    T4: 0,
+    Tution: 0,
+    T5: 0,
+    Employment: 12,
+    Foregin: 15,
+    Medical: 25,
+    Donations: 0,
+    Sold: 25,
+    Rental: 35,
+    T2125: 0,
+
+    Audit: 50,
+  };
 
   useEffect(() => {
     setFormData(
@@ -23,6 +37,8 @@ const TaxForm = () => {
         Sold: false,
         Rental: false,
         T2125: false,
+        total: 50,
+        Audit: false,
       }))
     );
   }, [numReturns]);
@@ -38,6 +54,23 @@ const TaxForm = () => {
       };
       return updatedFormData;
     });
+    if (valueMap.hasOwnProperty(name)) {
+      let newTotal = formData[index].total; // Get the current total
+      if (checked) {
+        newTotal += valueMap[name];
+      } else {
+        newTotal -= valueMap[name];
+      }
+
+      setFormData((prevFormData) => {
+        const updatedFormData = [...prevFormData];
+        updatedFormData[index] = {
+          ...updatedFormData[index],
+          total: newTotal,
+        };
+        return updatedFormData;
+      });
+    }
   };
 
   const handleContinue = () => {
@@ -51,11 +84,10 @@ const TaxForm = () => {
       setCurrentForm((prevForm) => prevForm - 1);
     }
   };
- const handlesubmit=(e)=>
- {
-  e.preventDefault();
-  console.log(formData)
- }
+  const handlesubmit = (e) => {
+    e.preventDefault();
+    console.log(formData);
+  };
   return (
     <div className="max-w-screen mx-auto">
       {formData.map((data, index) => (
@@ -68,11 +100,20 @@ const TaxForm = () => {
           className={index === currentForm ? "" : "hidden"}
           onSubmit={(e) => e.preventDefault()}
         >
-          <div className="border text-center font-bold p-2 text-[#000]">Tax Form {index + 1}</div>
+          <div className="border text-center font-bold p-2 text-[#000]">
+            Tax Form {index + 1} / {numReturns}
+          </div>
           <div className="flex flex-col mt-4 p-5 ">
-            {/* <label className="text-lg mb-2">
-              Choose options for Tax Form {index + 1}:
-            </label> */}
+            <div className=" mb-4  mx-auto">
+              <h1 className="text-2xl font-bold mb-2">
+                Our Team of Professional Accountants Prepares Your Return for
+                You
+              </h1>
+              <div className="flex  flex-col text-3xl ml-28 sm:ml-80 ">
+               <img src="https://cdn-icons-png.freepik.com/512/6679/6679839.png" alt="Price" className="h-16 w-16 rounded-full bg-gradient-to-l bg-blue-800" />
+                <div className="font-extrabold text-6xl ml-1  ">{formData[index].total}</div>
+              </div>
+            </div>
             <div className="grid grid-cols-2 gap-3 sm:max-w-screen-2xl mx-auto">
               <div>
                 <input
@@ -105,7 +146,9 @@ const TaxForm = () => {
                   onChange={handleCheckboxChange}
                   className="mr-2"
                 />
-                <label htmlFor={`Tution-${index}`}>Tution <span>(Students)</span> </label>
+                <label htmlFor={`Tution-${index}`}>
+                  Tution <span>(Students)</span>{" "}
+                </label>
               </div>
               <div>
                 <input
@@ -127,7 +170,9 @@ const TaxForm = () => {
                   onChange={handleCheckboxChange}
                   className="mr-2"
                 />
-                <label htmlFor={`Employment-${index}`}>Employment Insurance <span>(EI)</span> </label>
+                <label htmlFor={`Employment-${index}`}>
+                  Employment Insurance <span>(EI)</span>{" "}
+                </label>
               </div>
               <div>
                 <input
@@ -149,7 +194,9 @@ const TaxForm = () => {
                   onChange={handleCheckboxChange}
                   className="mr-2"
                 />
-                <label htmlFor={`Donations-${index}`}>Donations Expenses </label>
+                <label htmlFor={`Donations-${index}`}>
+                  Donations Expenses{" "}
+                </label>
               </div>
               <div>
                 <input
@@ -160,7 +207,9 @@ const TaxForm = () => {
                   onChange={handleCheckboxChange}
                   className="mr-2"
                 />
-                <label htmlFor={`Sold-${index}`}>Sold Home <span>(s)</span> </label>
+                <label htmlFor={`Sold-${index}`}>
+                  Sold Home <span>(s)</span>{" "}
+                </label>
               </div>
               <div>
                 <input
@@ -182,8 +231,24 @@ const TaxForm = () => {
                   onChange={handleCheckboxChange}
                   className="mr-2"
                 />
-                <label htmlFor={`T2125-${index}`}>T2125/T4A <span>Self-Employed</span> </label>
+                <label htmlFor={`T2125-${index}`}>
+                  T2125/T4A <span>Self-Employed</span>{" "}
+                </label>
               </div>
+            </div>
+            <hr className="mt-4" />
+            <div className="mt-3 text-center">
+              <input
+                type="checkbox"
+                name="Audit"
+                id={`Audit-${index}`}
+                checked={formData[index]?.Audit}
+                onChange={handleCheckboxChange}
+                className="mr-2"
+              />
+              <label htmlFor={`Audit-${index}`}>
+                Add audit support for this return. <a href="">Learn more</a>
+              </label>
             </div>
           </div>
           <div className="flex justify-center mb-4  mt-8 gap-x-40">
@@ -206,7 +271,11 @@ const TaxForm = () => {
               </button>
             )}
             {currentForm === numReturns - 1 && (
-              <button type="submit" className="btn btn-primary" onClick={handlesubmit}>
+              <button
+                type="submit"
+                className="btn btn-primary"
+                onClick={handlesubmit}
+              >
                 Submit
               </button>
             )}
