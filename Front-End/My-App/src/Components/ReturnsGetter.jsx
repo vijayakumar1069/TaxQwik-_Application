@@ -21,7 +21,7 @@ const ReturnsGetter = () => {
         className="bg-gray-300 shadow-md rounded px-8 pt-6 pb-8 mb-4"
       >
         <div className="mb-4 flex items-center ">
-          <label className="block text-gray-700 font-bold mr-2 sm:text-2xl sm:ml-[500px]">
+          <label className="block text-gray-700 font-bold mr-2 sm:text-3xl sm:ml-[400px]">
             Number of returns you want to file:
           </label>
           <input

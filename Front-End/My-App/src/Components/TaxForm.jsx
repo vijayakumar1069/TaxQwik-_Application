@@ -1,202 +1,192 @@
-// import React, { useState } from "react";
-// import { useDispatch, useSelector } from "react-redux";
-// import { setNumReturns } from "../redux/Slice";
-// import money from "../assets/money.jpg";
-
-// const TaxForm = () => {
-//   const numReturns = useSelector((state) => state.returns.numReturns);
-//   const dispatch = useDispatch();
-//   const [formData, setFormdata] = useState(
-//     Array(numReturns)
-//       .fill({})
-//       .map((_, i) => {})
-//   );
-//   console.log(formData);
-//   const handlechange=(e)=>
-//   {
-//     const{id,name,index}=e.target;
-//     console.log(id,name,index)
-//   }
-
-//   return (
-//     <div className="max-w-screen mx-auto">
-//       {[...Array(numReturns)].map((_, index) => (
-//         <form className="" key={index}>
-//           <div className="border text-center">Tax Form{index + 1}</div>
-//           <div className="">
-//             <h1>
-//               Our Team of Professional Accountants Prepares Your Return for You.
-//             </h1>
-//             <img
-//               src={money}
-//               alt="moneyimage"
-//               className="w-28 h-26 text-center"
-//             />
-//             <h1>
-//               <span>$</span>50
-//             </h1>
-//           </div>
-//           <div className="">
-//             <div className="">
-//               <input
-//                 type="checkbox"
-//                 id="T4"
-//                 name="T4"
-//                 onChange={()=>handlechange(index)}
-//               />
-//               <label>
-//                 {" "}
-//                 T4 <span>(Worked as Employee)</span>
-//               </label>
-//             </div>
-//             <div className="">
-//               <input type="checkbox" id="Tution" name="tution"  onChange={handlechange} />
-//               <label>
-//                 {" "}
-//                 Tution <span>(Students)</span>
-//               </label>
-//             </div>
-//             <div className="">
-//               <input type="checkbox" id="EI" name="EI"  onChange={handlechange} />
-//               <label>
-//                 {" "}
-//                 Employement Insurance <span>(EI)</span>
-//               </label>
-//             </div>
-//             <div className="">
-//               <input type="checkbox" id="T5" name="T5"  onChange={handlechange} />
-//               <label>
-//                 {" "}
-//                 T5 <span>(Investments)</span>
-//               </label>
-//             </div>
-//             <div className="">
-//               <input type="checkbox" id="Foreign" name="Foreign"  onChange={handlechange} />
-//               <label> Foreign Income</label>
-//             </div>
-//             <div className="">
-//               <div className="">
-//                 <input type="checkbox" id="Medical" name="Medical Expenses" onChange={handlechange}  />
-//                 <label> Medical Expenses</label>
-//               </div>
-//               <div className="">
-//                 <input type="checkbox" id="Donations" name="Donations"  onChange={handlechange} />
-//                 <label> Donations</label>
-//               </div>
-//               <div className="">
-//                 <input type="checkbox" id="Sold Home" name="Sold Home"  onChange={handlechange} />
-//                 <label>
-//                   {" "}
-//                   Sold Home <span>(s)</span>
-//                 </label>
-//               </div>
-//               <div className="">
-//                 <input
-//                   type="checkbox"
-//                   id="Rental Income"
-//                   name="Rental Income"
-//                  onChange={handlechange} />
-//                 <label> Rental Income</label>
-//               </div>
-//               <div className="">
-//                 <input type="checkbox" id="T2125/T4A" name="T2125/T4A"  onChange={handlechange} />
-//                 <label>
-//                   {" "}
-//                   T2125/T4A <span>(Self-Employed)</span>
-//                 </label>
-//               </div>
-//             </div>
-//           </div>
-//           <div className="">
-//             <input type="checkbox" id="Audit" name="Audit"  onChange={handlechange} />
-//             <label>
-//               Add Audit Support For This Return{" "}
-//               <span>
-//                 <a href="">Learn More</a>
-//               </span>
-//             </label>
-//           </div>
-//           <div className="">
-//             <button>Back</button>
-//             <button>Continue</button>
-//           </div>
-//         </form>
-//       ))}
-//     </div>
-//   );
-// };
-
-// export default TaxForm;
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setNumReturns } from "../redux/Slice";
+import { motion } from "framer-motion";
 import money from "../assets/money.jpg";
 
 const TaxForm = () => {
   const numReturns = useSelector((state) => state.returns.numReturns);
   const dispatch = useDispatch();
-  const [currentForm, setCurrentForm] = useState(0); // Track the current form
-  const [formData, setFormData] = useState(Array(numReturns).fill({}));
+  const [currentForm, setCurrentForm] = useState(0);
+  const [formData, setFormData] = useState([]);
 
-  const handleCheckboxChange = (index, fieldName) => {
+  useEffect(() => {
+    setFormData(
+      Array.from({ length: numReturns }, () => ({
+        T4: false,
+        Tution: false,
+        T5: false,
+        Employment: false,
+        Foregin: false,
+        Medical: false,
+        Donations: false,
+        Sold: false,
+        Rental: false,
+        T2125: false,
+      }))
+    );
+  }, [numReturns]);
+
+  const handleCheckboxChange = (e) => {
+    const { name, checked } = e.target;
+    const index = currentForm;
     setFormData((prevFormData) => {
       const updatedFormData = [...prevFormData];
       updatedFormData[index] = {
         ...updatedFormData[index],
-        [fieldName]: !updatedFormData[index][fieldName],
+        [name]: checked,
       };
       return updatedFormData;
     });
   };
 
   const handleContinue = () => {
-    setCurrentForm((prevForm) => prevForm + 1);
+    if (currentForm < numReturns - 1) {
+      setCurrentForm((prevForm) => prevForm + 1);
+    }
   };
 
   const handleBack = () => {
-    setCurrentForm((prevForm) => prevForm - 1);
+    if (currentForm > 0) {
+      setCurrentForm((prevForm) => prevForm - 1);
+    }
   };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log("Form data:", formData);
-    // Here you can dispatch an action to store the form data or perform further processing
-  };
-
+ const handlesubmit=(e)=>
+ {
+  e.preventDefault();
+  console.log(formData)
+ }
   return (
     <div className="max-w-screen mx-auto">
       {formData.map((data, index) => (
-        <form
+        <motion.form
           key={index}
-          className={currentForm === index ? "" : "hidden"}
-          onSubmit={handleSubmit}
+          initial={{ opacity: 0, x: "-100%" }}
+          animate={{ opacity: 1, x: 0 }}
+          exit={{ opacity: 0, x: "-100%" }}
+          transition={{ duration: 0.5 }}
+          className={index === currentForm ? "" : "hidden"}
+          onSubmit={(e) => e.preventDefault()}
         >
-          <div className="border text-center">Tax Form {index + 1}</div>
-          {/* Form content */}
-          <div className="mt-4">
-            <h1 className="text-center font-bold text-lg">
-              Our Team of Professional Accountants Prepares Your Return for You.
-            </h1>
-            <img src={money} alt="moneyimage" className="w-28 h-26 mx-auto" />
-            <h1 className="text-center text-xl font-bold">
-              <span>$</span>50
-            </h1>
+          <div className="border text-center font-bold p-2 text-[#000]">Tax Form {index + 1}</div>
+          <div className="flex flex-col mt-4 p-5 ">
+            {/* <label className="text-lg mb-2">
+              Choose options for Tax Form {index + 1}:
+            </label> */}
+            <div className="grid grid-cols-2 gap-3 sm:max-w-screen-2xl mx-auto">
+              <div>
+                <input
+                  type="checkbox"
+                  name="T4"
+                  id={`T4-${index}`}
+                  checked={formData[index]?.T4}
+                  onChange={handleCheckboxChange}
+                  className="mr-2"
+                />
+                <label htmlFor={`T4-${index}`}>T4 (Worked as Employee)</label>
+              </div>
+              <div>
+                <input
+                  type="checkbox"
+                  name="T5"
+                  id={`T5-${index}`}
+                  checked={formData[index]?.T5}
+                  onChange={handleCheckboxChange}
+                  className="mr-2"
+                />
+                <label htmlFor={`T5-${index}`}>T5 (Investments)</label>
+              </div>
+              <div>
+                <input
+                  type="checkbox"
+                  name="Tution"
+                  id={`Tution-${index}`}
+                  checked={formData[index]?.Tution}
+                  onChange={handleCheckboxChange}
+                  className="mr-2"
+                />
+                <label htmlFor={`Tution-${index}`}>Tution <span>(Students)</span> </label>
+              </div>
+              <div>
+                <input
+                  type="checkbox"
+                  name="Foregin"
+                  id={`Foregin-${index}`}
+                  checked={formData[index]?.Foregin}
+                  onChange={handleCheckboxChange}
+                  className="mr-2"
+                />
+                <label htmlFor={`Foregin-${index}`}>Foregin Income </label>
+              </div>
+              <div>
+                <input
+                  type="checkbox"
+                  name="Employment"
+                  id={`Employment-${index}`}
+                  checked={formData[index]?.Employment}
+                  onChange={handleCheckboxChange}
+                  className="mr-2"
+                />
+                <label htmlFor={`Employment-${index}`}>Employment Insurance <span>(EI)</span> </label>
+              </div>
+              <div>
+                <input
+                  type="checkbox"
+                  name="Medical"
+                  id={`Medical-${index}`}
+                  checked={formData[index]?.Medical}
+                  onChange={handleCheckboxChange}
+                  className="mr-2"
+                />
+                <label htmlFor={`Medical-${index}`}>Medical Expenses </label>
+              </div>
+              <div>
+                <input
+                  type="checkbox"
+                  name="Donations"
+                  id={`Donations-${index}`}
+                  checked={formData[index]?.Donations}
+                  onChange={handleCheckboxChange}
+                  className="mr-2"
+                />
+                <label htmlFor={`Donations-${index}`}>Donations Expenses </label>
+              </div>
+              <div>
+                <input
+                  type="checkbox"
+                  name="Sold"
+                  id={`Sold-${index}`}
+                  checked={formData[index]?.Sold}
+                  onChange={handleCheckboxChange}
+                  className="mr-2"
+                />
+                <label htmlFor={`Sold-${index}`}>Sold Home <span>(s)</span> </label>
+              </div>
+              <div>
+                <input
+                  type="checkbox"
+                  name="Rental"
+                  id={`Rental-${index}`}
+                  checked={formData[index]?.Rental}
+                  onChange={handleCheckboxChange}
+                  className="mr-2"
+                />
+                <label htmlFor={`Rental-${index}`}>Rental Income </label>
+              </div>
+              <div>
+                <input
+                  type="checkbox"
+                  name="T2125"
+                  id={`T2125-${index}`}
+                  checked={formData[index]?.T2125}
+                  onChange={handleCheckboxChange}
+                  className="mr-2"
+                />
+                <label htmlFor={`T2125-${index}`}>T2125/T4A <span>Self-Employed</span> </label>
+              </div>
+            </div>
           </div>
-          {/* Checkboxes */}
-          {/* Example checkbox */}
-          <div className="flex items-center mt-4">
-            <input
-              type="checkbox"
-              id={`return-${index}-T4`}
-              checked={formData[index]?.T4}
-              onChange={() => handleCheckboxChange(index, "T4")}
-              className="mr-2"
-            />
-            <label htmlFor={`return-${index}-T4`}>T4 (Worked as Employee)</label>
-          </div>
-          {/* Add more checkboxes */}
-          {/* Continue and Back buttons */}
-          <div className="flex justify-between mt-8">
+          <div className="flex justify-center mb-4  mt-8 gap-x-40">
             {currentForm > 0 && (
               <button
                 type="button"
@@ -216,16 +206,15 @@ const TaxForm = () => {
               </button>
             )}
             {currentForm === numReturns - 1 && (
-              <button type="submit" className="btn btn-primary">
+              <button type="submit" className="btn btn-primary" onClick={handlesubmit}>
                 Submit
               </button>
             )}
           </div>
-        </form>
+        </motion.form>
       ))}
     </div>
   );
 };
 
 export default TaxForm;
-
