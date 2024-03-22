@@ -8,7 +8,7 @@ const Hero = () => {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 1 }}
-      className="hero min-h-[500px]"
+      className="hero min-h-[500px] mt-16"
       style={{ backgroundImage: `url(${tax2})` }}
     >
       <div className="hero-overlay bg-opacity-60"></div>

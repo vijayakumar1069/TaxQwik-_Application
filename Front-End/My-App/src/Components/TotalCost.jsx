@@ -21,11 +21,11 @@ const TotalCost = () => {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      className="p-4"
+      className="p-6"
     >
-      <div className="text-xl font-semibold mb-4">Estimated Total Cost</div>
+      <div className="text-xl font-semibold mb-4 ">Estimated Total Cost</div>
       <div className="border p-4 rounded-lg">
-        <div className="text-lg font-semibold mb-4">Order Summary</div>
+        <div className="text-lg font-semibold mb-4 bg-slate-700 text-center text-white p-2">Order Summary</div>
         {totalReturns &&
           totalReturns.map((data, index) => (
             <div key={index} className="mb-4">

@@ -89,7 +89,7 @@ const TaxForm = () => {
     dispatch(totalReturns(formData));
   };
   return (
-    <div className="max-w-screen mx-auto">
+    <div className="max-w-screen mx-auto p-2">
       {formData.map((data, index) => (
         <motion.form
           key={index}
