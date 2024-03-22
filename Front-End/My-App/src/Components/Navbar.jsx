@@ -1,11 +1,17 @@
 import React from "react";
+import { motion } from "framer-motion";
 import LOGO from "../assets/Logo1.png";
 import { OUR_BRAND } from "../Constants/ConstantsData";
 import { FaAlignJustify } from "react-icons/fa6";
 
 const Navbar = () => {
   return (
-    <div className="navbar bg-[#e6e0e0] sm:rounded-box">
+    <motion.div
+      initial={{ opacity: 0, y: -50 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5 }}
+      className="navbar bg-[#e6e0e0] sm:rounded-box"
+    >
       <div className="flex-1 px-2 lg:flex-none">
         <img
           src={LOGO}
@@ -20,12 +26,20 @@ const Navbar = () => {
       </div>
       <div className="flex justify-end flex-1 px-2">
         <div className="flex gap-6 items-stretch">
-          <a className=" text-2xl  hidden sm:block rounded-btn font-bold cursor-pointer active:underline ">
+          <motion.a
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.9 }}
+            className=" text-2xl  hidden sm:block rounded-btn font-bold cursor-pointer active:underline "
+          >
             Home
-          </a>
-          <a className="text-2xl hidden sm:block rounded-btn  font-bold cursor-pointer active:underline">
+          </motion.a>
+          <motion.a
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.9 }}
+            className="text-2xl hidden sm:block rounded-btn  font-bold cursor-pointer active:underline"
+          >
             Blogs
-          </a>
+          </motion.a>
           <div className="dropdown dropdown-end">
             <details className="dropdown sm:hidden">
               <summary className="m-1 btn sm:hidden">
@@ -43,7 +57,7 @@ const Navbar = () => {
           </div>
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 };
 

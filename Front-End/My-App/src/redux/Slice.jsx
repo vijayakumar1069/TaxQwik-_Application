@@ -1,7 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  numReturns: 1
+  numReturns: 1,
+  returncount:null
 };
 
 export const returnsSlice = createSlice({
@@ -11,10 +12,14 @@ export const returnsSlice = createSlice({
     setNumReturns: (state, action) => {
       state.numReturns = action.payload;
       console.log(state.numReturns);
+    },
+    totalReturns: (state, action) => {
+      state.returncount = action.payload;
+      
     }
   }
 });
 
-export const { setNumReturns } = returnsSlice.actions;
+export const { setNumReturns ,totalReturns} = returnsSlice.actions;
 
 export default returnsSlice.reducer;

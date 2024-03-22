@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { setNumReturns } from "../redux/Slice";
+import { totalReturns } from "../redux/Slice";
 import { motion } from "framer-motion";
-import money from "../assets/money.jpg";
-import { TfiMoney } from "react-icons/tfi";
+
 const TaxForm = () => {
   const numReturns = useSelector((state) => state.returns.numReturns);
   const dispatch = useDispatch();
@@ -87,6 +86,7 @@ const TaxForm = () => {
   const handlesubmit = (e) => {
     e.preventDefault();
     console.log(formData);
+    dispatch(totalReturns(formData));
   };
   return (
     <div className="max-w-screen mx-auto">
@@ -110,8 +110,14 @@ const TaxForm = () => {
                 You
               </h1>
               <div className="flex  flex-col text-3xl ml-28 sm:ml-80 ">
-               <img src="https://cdn-icons-png.freepik.com/512/6679/6679839.png" alt="Price" className="h-16 w-16 rounded-full bg-gradient-to-l bg-blue-800" />
-                <div className="font-extrabold text-6xl ml-1  ">{formData[index].total}</div>
+                <img
+                  src="https://cdn-icons-png.freepik.com/512/6679/6679839.png"
+                  alt="Price"
+                  className="h-16 w-16 rounded-full bg-gradient-to-l bg-blue-800"
+                />
+                <div className="font-extrabold text-6xl ml-1  ">
+                  {formData[index].total}
+                </div>
               </div>
             </div>
             <div className="grid grid-cols-2 gap-3 sm:max-w-screen-2xl mx-auto">
