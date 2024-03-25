@@ -1,3 +1,5 @@
+import React from "react";
+import { BrowserRouter as Router, Routes, Route ,useLocation, useLoaderData} from "react-router-dom";
 import Navbar from "./Components/Navbar";
 import Hero from "./Components/Hero";
 import ReturnsGetter from "./Components/ReturnsGetter";
@@ -5,15 +7,17 @@ import TaxForm from "./Components/TaxForm";
 import TotalCost from "./Components/TotalCost";
 import ContactForm from "./Components/ContactForm";
 import Footer from "./Components/Footer";
-import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 import Blogs from "./Components/Blogs";
-import { useDispatch, useSelector } from "react-redux";
-import { totalReturns } from "./redux/Slice";
+import { useSelector } from "react-redux";
+import { HelpButton } from "./Components/HelpButton";
 
 function App() {
   const numReturns = useSelector((state) => state.returns.numReturns);
   const returncount = useSelector((state) => state.returns.returncount);
+
+
   console.log(numReturns, returncount);
+
   return (
     <Router>
       <>
@@ -22,11 +26,12 @@ function App() {
           <Route path="/" element={<Hero />} />
           <Route path="/blogs" element={<Blogs />} />
         </Routes>
-
-        <ReturnsGetter />
-        {numReturns != 0 && <TaxForm />}
-        {returncount != null && <TotalCost />}
-        {returncount != null && <ContactForm />}
+    
+       
+        {numReturns >0 && <TaxForm />}
+        {returncount !== null && <TotalCost />}
+        {returncount !== null && <ContactForm />}
+        <HelpButton/>
 
         <Footer />
       </>
