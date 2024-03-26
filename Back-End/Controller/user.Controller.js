@@ -146,7 +146,9 @@ const userController = async (req, res) => {
           .json({ error: "Error occurred while sending email" });
       } else {
         console.log("Email sent:", info.response);
-        return res.status(200).json({ success: "Our Team Member Contact You" });
+        return res
+          .status(200)
+          .json({ success: "Our Team Member shall Contact You soon" });
       }
     });
   } catch (error) {
