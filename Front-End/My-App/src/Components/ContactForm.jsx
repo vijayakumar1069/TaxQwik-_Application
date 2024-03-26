@@ -1,19 +1,37 @@
 import React, { useState } from "react";
 import ReCAPTCHA from "react-google-recaptcha";
 import { motion } from "framer-motion";
+import { useSelector } from "react-redux";
+
 
 const ContactForm = () => {
   const [formData, setFormdata] = useState({ name: "", email: "", number: "" });
+  const returncount = useSelector((state) => state.returns.returncount);
 
   const handlechange = (e) => {
     setFormdata({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleFormSubmit = (event) => {
+  const handleFormSubmit = async(event) => {
     event.preventDefault();
     console.log("Form Data:", formData);
-    setFormdata({ name: "", email: "", number: "" })
+    try {
+      const res = await fetch("http://localhost:3000/api/contact", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({formData,returncount}),
+      });
+      const data = await res.json();
+      console.log(data);
+      setFormdata({ name: "", email: "", number: "" });
+    } catch (error) {
+      console.error("Error:", error);
+      // Handle the error (e.g., display an error message to the user)
+    }
   };
+  
 
   return (
     <motion.form
@@ -33,6 +51,7 @@ const ContactForm = () => {
           placeholder="Enter your Name"
           className="border p-3 rounded-md w-full mt-1"
           required
+          value={formData.name}
           onChange={handlechange}
         />
       </div>
@@ -46,6 +65,7 @@ const ContactForm = () => {
           placeholder="Enter your Email"
           className="border p-3 rounded-md w-full mt-1"
           required
+          value={formData.email}
           onChange={handlechange}
         />
       </div>
@@ -59,6 +79,7 @@ const ContactForm = () => {
           placeholder="Enter your Number"
           className="border p-3 rounded-md w-full mt-1"
           required
+          value={formData.number}
           onChange={handlechange}
         />
       </div>
