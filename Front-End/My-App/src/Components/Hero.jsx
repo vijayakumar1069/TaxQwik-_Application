@@ -42,7 +42,9 @@ const Hero = () => {
               transition={{ duration: 1, delay: 1.5 }}
               className="flex justify-center"
             >
-              <button className="btn btn-primary mr-3">Get Started</button>
+              <button className="btn btn-primary mr-3">
+                <Link to="/startup-guide">Get Started</Link>
+              </button>
               <button>
                 <Link
                   to="/blogs"
