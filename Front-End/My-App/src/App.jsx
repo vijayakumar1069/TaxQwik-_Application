@@ -1,5 +1,11 @@
 import React from "react";
-import { BrowserRouter as Router, Routes, Route ,useLocation, useLoaderData} from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  useLocation,
+  useLoaderData,
+} from "react-router-dom";
 import Navbar from "./Components/Navbar";
 import Hero from "./Components/Hero";
 import ReturnsGetter from "./Components/ReturnsGetter";
@@ -10,11 +16,11 @@ import Footer from "./Components/Footer";
 import Blogs from "./Components/Blogs";
 import { useSelector } from "react-redux";
 import { HelpButton } from "./Components/HelpButton";
+import Audit_Support from "./Components/Audit_Support";
 
 function App() {
   const numReturns = useSelector((state) => state.returns.numReturns);
   const returncount = useSelector((state) => state.returns.returncount);
-
 
   console.log(numReturns, returncount);
 
@@ -24,14 +30,31 @@ function App() {
         <Navbar />
         <Routes>
           <Route path="/" element={<Hero />} />
-          <Route path="/blogs" element={<Blogs />} />
+          <Route
+            path="/blogs"
+            element={
+              <>
+                <Blogs />
+              </>
+            }
+          />
+          <Route path="/audit-support" element={<Audit_Support />}></Route>
         </Routes>
-    
-       
-        {numReturns >0 && <TaxForm />}
-        {returncount !== null && <TotalCost />}
-        {returncount !== null && <ContactForm />}
-        <HelpButton/>
+        <Routes>
+          <Route
+            path="/"
+            element={
+              <>
+                {" "}
+                {numReturns > 0 && <TaxForm />}
+                {returncount !== null && <TotalCost />}
+                {returncount !== null && <ContactForm />}
+              </>
+            }
+          ></Route>
+        </Routes>
+
+        <HelpButton />
 
         <Footer />
       </>

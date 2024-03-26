@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { totalReturns } from "../redux/Slice";
 import { motion } from "framer-motion";
+import { Link } from "react-router-dom";
 
 const TaxForm = () => {
   const numReturns = useSelector((state) => state.returns.numReturns);
@@ -12,13 +13,13 @@ const TaxForm = () => {
     T4: 0,
     Tution: 0,
     T5: 0,
-    Employment: 12,
-    Foregin: 15,
+    Employment: 0,
+    Foregin: 0,
     Medical: 25,
-    Donations: 0,
-    Sold: 25,
-    Rental: 35,
-    T2125: 0,
+    Donations: 25,
+    Sold: 50,
+    Rental: 100,
+    T2125: 100,
 
     Audit: 50,
   };
@@ -165,7 +166,7 @@ const TaxForm = () => {
                   onChange={handleCheckboxChange}
                   className="mr-2"
                 />
-                <label htmlFor={`Foregin-${index}`}>Foregin Income </label>
+                <label htmlFor={`Foregin-${index}`}>Foreign Income</label>
               </div>
               <div>
                 <input
@@ -214,7 +215,7 @@ const TaxForm = () => {
                   className="mr-2"
                 />
                 <label htmlFor={`Sold-${index}`}>
-                  Sold Home <span>(s)</span>{" "}
+                  Sold Home<span>(s)</span>{" "}
                 </label>
               </div>
               <div>
@@ -253,7 +254,8 @@ const TaxForm = () => {
                 className="mr-2"
               />
               <label htmlFor={`Audit-${index}`}>
-                Add audit support for this return. <a href="">Learn more</a>
+                Add audit support for this return.{" "}
+                <Link to="/audit-support" className="text-blue-500 font-bold">Learn More</Link>
               </label>
             </div>
           </div>

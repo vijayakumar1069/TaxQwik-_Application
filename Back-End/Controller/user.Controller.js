@@ -11,22 +11,12 @@ const userController = async (req, res) => {
   }
 
   try {
-    // let t = 0;
-    // const trueKeysArray = returncount.map((data) => {
-    //   t += Number(data.total);
-    //   const truevalues = Object.entries(data)
-    //     .filter(([key, value]) => value === true)
-    //     .map(([key]) => key);
-    //   return { ...truevalues, total: data.total };
-    // });
     let t = 0;
     let newArray = [];
     let v = returncount.map((data, index) => {
       t += Number(data.total);
       let newObj = {};
       for (const key in data) {
-        console.log(key);
-        console.log(data[key]);
         if (data[key] === true) {
           newObj[key] = data[key];
         }
@@ -156,7 +146,7 @@ const userController = async (req, res) => {
           .json({ error: "Error occurred while sending email" });
       } else {
         console.log("Email sent:", info.response);
-        return res.status(200).json({ success: "Mail sent Successfully...." });
+        return res.status(200).json({ success: "Our Team Member Contact You" });
       }
     });
   } catch (error) {

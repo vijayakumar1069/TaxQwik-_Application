@@ -2,10 +2,13 @@ import React from "react";
 import { motion } from "framer-motion";
 import tax2 from "../assets/tax2.jpg";
 import ReturnsGetter from "./ReturnsGetter";
+import { Link } from "react-router-dom";
 
 const Hero = () => {
   return (
-    <div> {/* Enclosing div for both Hero and ReturnsGetter */}
+    <div>
+      {" "}
+      {/* Enclosing div for both Hero and ReturnsGetter */}
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
@@ -40,12 +43,20 @@ const Hero = () => {
               className="flex justify-center"
             >
               <button className="btn btn-primary mr-3">Get Started</button>
-              <button className="btn btn-secondary">Learn More</button>
+              <button>
+                <Link
+                  to="/blogs"
+                  className="btn btn-secondary hover:opacity-80"
+                >
+                  Learn More
+                </Link>
+              </button>
             </motion.div>
           </div>
         </div>
       </motion.div>
-      <ReturnsGetter /> {/* ReturnsGetter component is rendered after the motion.div */}
+      <ReturnsGetter />{" "}
+      {/* ReturnsGetter component is rendered after the motion.div */}
     </div>
   );
 };
