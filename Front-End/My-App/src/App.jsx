@@ -17,6 +17,7 @@ import Blogs from "./Components/Blogs";
 import { useSelector } from "react-redux";
 import { HelpButton } from "./Components/HelpButton";
 import Audit_Support from "./Components/Audit_Support";
+import Start_up_Guide from "./Components/Start_up_Guide";
 
 function App() {
   const numReturns = useSelector((state) => state.returns.numReturns);
@@ -39,6 +40,7 @@ function App() {
             }
           />
           <Route path="/audit-support" element={<Audit_Support />}></Route>
+          <Route path="/startup-guide" element={<Start_up_Guide />}></Route>
         </Routes>
         <Routes>
           <Route

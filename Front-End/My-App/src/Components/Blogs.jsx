@@ -1,6 +1,7 @@
 import React from "react";
 import { motion } from "framer-motion";
 import { FaAngleRight } from "react-icons/fa";
+import { Link } from "react-router-dom";
 
 const Blogs = () => {
   const blog = [
@@ -16,7 +17,7 @@ const Blogs = () => {
         "https://leadershipthroughdata.com/wp-content/uploads/20230718-Blog-Jacqueline-Stockwell-Where-to-start-with-auditing-in-Microsoft-365.png",
       content:
         "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris facilisis, sem laoreet rhoncus cursus, lorem lectus gravida dui, condimentum blandit diam diam sit amet arcu. Fusce elementum ante eget fermentum molestie. Nulla gravida eros erat, quis fermentum nibh vestibulum non. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Curabitur neque nisl, maximus non eleifend a, malesuada tempor metus. Morbi id leo non diam finibus tristique. Donec rhoncus dapibus diam, at accumsan risus finibus quis. Mauris non enim consequat, ullamcorper lorem elementum, congue urna.",
-      redirect: "https://copper-hill-inc.com/audit-support/",
+      redirect: "/startup-guide",
     },
   ];
 
@@ -38,12 +39,12 @@ const Blogs = () => {
             <div className="p-4">
               <p className="text-gray-800 text-base">{data.content}</p>
               <div className="flex items-center justify-between mt-4">
-                <a
-                  href={data.redirect}
+                <Link
+                  to={data.redirect}
                   className="text-blue-700 underline hover:text-blue-900"
                 >
                   Read more
-                </a>
+                </Link>
                 <FaAngleRight className="text-xs" />
               </div>
             </div>

@@ -87,7 +87,7 @@ const TotalCost = () => {
         <hr />
         <div className="flex justify-between mt-1">
           <div className="font-semibold text-lg">GrandTotal</div>
-          <div className="text-2xl text-right"><span>$</span>{(subTotal + subTotal * 0.13).toFixed(2)}</div>
+          <div className="text-2xl text-right text-[#D20062] font-bold"><span>$</span>{(subTotal + subTotal * 0.13).toFixed(2)}</div>
         </div>
       </div>
     </motion.div>
