@@ -8,6 +8,7 @@ const ContactForm = () => {
   const returncount = useSelector((state) => state.returns.returncount);
   const [msg, setMsg] = useState(false);
   const [err, setErr] = useState(false);
+  const [processing, setProcessing] = useState(false);
 
   const handlechange = (e) => {
     setFormdata({ ...formData, [e.target.name]: e.target.value });
@@ -15,6 +16,7 @@ const ContactForm = () => {
 
   const handleFormSubmit = async (event) => {
     event.preventDefault();
+    setProcessing(true);
     console.log("Form Data:", formData);
     try {
       const res = await fetch("http://localhost:3000/api/contact", {
@@ -32,6 +34,7 @@ const ContactForm = () => {
       }
 
       setFormdata({ name: "", email: "", number: "" });
+      setProcessing(false);
     } catch (error) {
       console.error("Error:", error);
       // Handle the error (e.g., display an error message to the user)
@@ -99,17 +102,21 @@ const ContactForm = () => {
       </div>
       <ReCAPTCHA sitekey="6LeTfqEpAAAAAFGxsfSCVukA-h_biUTuQuTA3zoo" />
       <button type="submit" className="btn btn-primary font-bold text-lg mt-4">
-        Submit
+        {" "}
+        {processing ? (
+          <span className="loading loading-dots loading-lg"></span>
+        ) : (
+          <> Submit</>
+        )}
       </button>
       <motion.div
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: msg ? 1 : 0, y: msg ? 0 : -20 }}
-        className="text-green-500 text-center font-bold mb-2"
-      >
+        className="text-green-700 text-center font-bold mt-4">
+      
         {msg}
       </motion.div>
 
-  
       <motion.div
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: err ? 1 : 0, y: err ? 0 : -20 }}
